@@ -1,0 +1,378 @@
+MODULE main
+VAR
+home_exclusive_granted : boolean;
+home_current_command : {epsilon, req_shared, req_exclusive};
+home_current_client : {1, 2, 3};
+cache[1] : {invalid, shared, exclusive};
+cache[2] : {invalid, shared, exclusive};
+cache[3] : {invalid, shared, exclusive};
+home_sharer_list[1] : boolean;
+home_sharer_list[2] : boolean;
+home_sharer_list[3] : boolean;
+
+--------------------
+
+n_t1__1 : process Proc__n_t1__1(cache[1], home_current_client, home_current_command);
+
+n_t1__2 : process Proc__n_t1__2(cache[2], home_current_client, home_current_command);
+
+n_t1__3 : process Proc__n_t1__3(cache[3], home_current_client, home_current_command);
+
+n_t2__1 : process Proc__n_t2__1(cache[1], home_current_client, home_current_command);
+
+n_t2__2 : process Proc__n_t2__2(cache[2], home_current_client, home_current_command);
+
+n_t2__3 : process Proc__n_t2__3(cache[3], home_current_client, home_current_command);
+
+n_t3__1 : process Proc__n_t3__1(cache[1], home_current_command, home_exclusive_granted, home_sharer_list[1]);
+
+n_t3__2 : process Proc__n_t3__2(cache[2], home_current_command, home_exclusive_granted, home_sharer_list[2]);
+
+n_t3__3 : process Proc__n_t3__3(cache[3], home_current_command, home_exclusive_granted, home_sharer_list[3]);
+
+n_t4__1 : process Proc__n_t4__1(cache[1], home_current_command, home_exclusive_granted, home_sharer_list[1]);
+
+n_t4__2 : process Proc__n_t4__2(cache[2], home_current_command, home_exclusive_granted, home_sharer_list[2]);
+
+n_t4__3 : process Proc__n_t4__3(cache[3], home_current_command, home_exclusive_granted, home_sharer_list[3]);
+
+n_t5__1 : process Proc__n_t5__1(cache[1], home_current_client, home_current_command, home_exclusive_granted, home_sharer_list[1]);
+
+n_t5__2 : process Proc__n_t5__2(cache[2], home_current_client, home_current_command, home_exclusive_granted, home_sharer_list[2]);
+
+n_t5__3 : process Proc__n_t5__3(cache[3], home_current_client, home_current_command, home_exclusive_granted, home_sharer_list[3]);
+
+n_t6__1 : process Proc__n_t6__1(cache[1], home_current_client, home_current_command, home_exclusive_granted, home_sharer_list[1], home_sharer_list[2], home_sharer_list[3]);
+
+n_t6__2 : process Proc__n_t6__2(cache[2], home_current_client, home_current_command, home_exclusive_granted, home_sharer_list[1], home_sharer_list[2], home_sharer_list[3]);
+
+n_t6__3 : process Proc__n_t6__3(cache[3], home_current_client, home_current_command, home_exclusive_granted, home_sharer_list[1], home_sharer_list[2], home_sharer_list[3]);
+
+--------------------
+
+ASSIGN
+init(cache[1]) := case
+TRUE : invalid;
+esac;
+init(cache[2]) := case
+TRUE : invalid;
+esac;
+init(cache[3]) := case
+TRUE : invalid;
+esac;
+init(home_current_client) := case
+TRUE : 1;
+esac;
+init(home_current_command) := case
+TRUE : epsilon;
+esac;
+init(home_exclusive_granted) := case
+TRUE : FALSE;
+esac;
+init(home_sharer_list[1]) := case
+TRUE : FALSE;
+esac;
+init(home_sharer_list[2]) := case
+TRUE : FALSE;
+esac;
+init(home_sharer_list[3]) := case
+TRUE : FALSE;
+esac;
+
+--------------------
+
+
+
+--------------------
+
+MODULE Proc__n_t1__1(cache__1, home_current_client, home_current_command)
+ASSIGN
+next(home_current_client) := case
+((cache__1 = invalid) & (home_current_command = epsilon)) : 1;
+TRUE : home_current_client;
+esac;
+next(home_current_command) := case
+((cache__1 = invalid) & (home_current_command = epsilon)) : req_shared;
+TRUE : home_current_command;
+esac;
+
+---------
+
+MODULE Proc__n_t1__2(cache__2, home_current_client, home_current_command)
+ASSIGN
+next(home_current_client) := case
+((cache__2 = invalid) & (home_current_command = epsilon)) : 2;
+TRUE : home_current_client;
+esac;
+next(home_current_command) := case
+((cache__2 = invalid) & (home_current_command = epsilon)) : req_shared;
+TRUE : home_current_command;
+esac;
+
+---------
+
+MODULE Proc__n_t1__3(cache__3, home_current_client, home_current_command)
+ASSIGN
+next(home_current_client) := case
+((cache__3 = invalid) & (home_current_command = epsilon)) : 3;
+TRUE : home_current_client;
+esac;
+next(home_current_command) := case
+((cache__3 = invalid) & (home_current_command = epsilon)) : req_shared;
+TRUE : home_current_command;
+esac;
+
+---------
+
+MODULE Proc__n_t2__1(cache__1, home_current_client, home_current_command)
+ASSIGN
+next(home_current_client) := case
+((home_current_command = epsilon) & (!(cache__1 = exclusive))) : 1;
+TRUE : home_current_client;
+esac;
+next(home_current_command) := case
+((home_current_command = epsilon) & (!(cache__1 = exclusive))) : req_exclusive;
+TRUE : home_current_command;
+esac;
+
+---------
+
+MODULE Proc__n_t2__2(cache__2, home_current_client, home_current_command)
+ASSIGN
+next(home_current_client) := case
+((home_current_command = epsilon) & (!(cache__2 = exclusive))) : 2;
+TRUE : home_current_client;
+esac;
+next(home_current_command) := case
+((home_current_command = epsilon) & (!(cache__2 = exclusive))) : req_exclusive;
+TRUE : home_current_command;
+esac;
+
+---------
+
+MODULE Proc__n_t2__3(cache__3, home_current_client, home_current_command)
+ASSIGN
+next(home_current_client) := case
+((home_current_command = epsilon) & (!(cache__3 = exclusive))) : 3;
+TRUE : home_current_client;
+esac;
+next(home_current_command) := case
+((home_current_command = epsilon) & (!(cache__3 = exclusive))) : req_exclusive;
+TRUE : home_current_command;
+esac;
+
+---------
+
+MODULE Proc__n_t3__1(cache__1, home_current_command, home_exclusive_granted, home_sharer_list__1)
+ASSIGN
+next(cache__1) := case
+((home_current_command = req_exclusive) & (home_sharer_list__1 = TRUE)) : invalid;
+TRUE : cache__1;
+esac;
+next(home_exclusive_granted) := case
+((home_current_command = req_exclusive) & (home_sharer_list__1 = TRUE)) : FALSE;
+TRUE : home_exclusive_granted;
+esac;
+next(home_sharer_list__1) := case
+((home_current_command = req_exclusive) & (home_sharer_list__1 = TRUE)) : FALSE;
+TRUE : home_sharer_list__1;
+esac;
+
+---------
+
+MODULE Proc__n_t3__2(cache__2, home_current_command, home_exclusive_granted, home_sharer_list__2)
+ASSIGN
+next(cache__2) := case
+((home_current_command = req_exclusive) & (home_sharer_list__2 = TRUE)) : invalid;
+TRUE : cache__2;
+esac;
+next(home_exclusive_granted) := case
+((home_current_command = req_exclusive) & (home_sharer_list__2 = TRUE)) : FALSE;
+TRUE : home_exclusive_granted;
+esac;
+next(home_sharer_list__2) := case
+((home_current_command = req_exclusive) & (home_sharer_list__2 = TRUE)) : FALSE;
+TRUE : home_sharer_list__2;
+esac;
+
+---------
+
+MODULE Proc__n_t3__3(cache__3, home_current_command, home_exclusive_granted, home_sharer_list__3)
+ASSIGN
+next(cache__3) := case
+((home_current_command = req_exclusive) & (home_sharer_list__3 = TRUE)) : invalid;
+TRUE : cache__3;
+esac;
+next(home_exclusive_granted) := case
+((home_current_command = req_exclusive) & (home_sharer_list__3 = TRUE)) : FALSE;
+TRUE : home_exclusive_granted;
+esac;
+next(home_sharer_list__3) := case
+((home_current_command = req_exclusive) & (home_sharer_list__3 = TRUE)) : FALSE;
+TRUE : home_sharer_list__3;
+esac;
+
+---------
+
+MODULE Proc__n_t4__1(cache__1, home_current_command, home_exclusive_granted, home_sharer_list__1)
+ASSIGN
+next(cache__1) := case
+((home_current_command = req_shared) & (home_exclusive_granted = TRUE) & (home_sharer_list__1 = TRUE)) : shared;
+TRUE : cache__1;
+esac;
+next(home_exclusive_granted) := case
+((home_current_command = req_shared) & (home_exclusive_granted = TRUE) & (home_sharer_list__1 = TRUE)) : FALSE;
+TRUE : home_exclusive_granted;
+esac;
+next(home_sharer_list__1) := case
+((home_current_command = req_shared) & (home_exclusive_granted = TRUE) & (home_sharer_list__1 = TRUE)) : TRUE;
+TRUE : home_sharer_list__1;
+esac;
+
+---------
+
+MODULE Proc__n_t4__2(cache__2, home_current_command, home_exclusive_granted, home_sharer_list__2)
+ASSIGN
+next(cache__2) := case
+((home_current_command = req_shared) & (home_exclusive_granted = TRUE) & (home_sharer_list__2 = TRUE)) : shared;
+TRUE : cache__2;
+esac;
+next(home_exclusive_granted) := case
+((home_current_command = req_shared) & (home_exclusive_granted = TRUE) & (home_sharer_list__2 = TRUE)) : FALSE;
+TRUE : home_exclusive_granted;
+esac;
+next(home_sharer_list__2) := case
+((home_current_command = req_shared) & (home_exclusive_granted = TRUE) & (home_sharer_list__2 = TRUE)) : TRUE;
+TRUE : home_sharer_list__2;
+esac;
+
+---------
+
+MODULE Proc__n_t4__3(cache__3, home_current_command, home_exclusive_granted, home_sharer_list__3)
+ASSIGN
+next(cache__3) := case
+((home_current_command = req_shared) & (home_exclusive_granted = TRUE) & (home_sharer_list__3 = TRUE)) : shared;
+TRUE : cache__3;
+esac;
+next(home_exclusive_granted) := case
+((home_current_command = req_shared) & (home_exclusive_granted = TRUE) & (home_sharer_list__3 = TRUE)) : FALSE;
+TRUE : home_exclusive_granted;
+esac;
+next(home_sharer_list__3) := case
+((home_current_command = req_shared) & (home_exclusive_granted = TRUE) & (home_sharer_list__3 = TRUE)) : TRUE;
+TRUE : home_sharer_list__3;
+esac;
+
+---------
+
+MODULE Proc__n_t5__1(cache__1, home_current_client, home_current_command, home_exclusive_granted, home_sharer_list__1)
+ASSIGN
+next(cache__1) := case
+((home_current_client = 1) & (home_current_command = req_shared) & (home_exclusive_granted = FALSE)) : shared;
+TRUE : cache__1;
+esac;
+next(home_current_command) := case
+((home_current_client = 1) & (home_current_command = req_shared) & (home_exclusive_granted = FALSE)) : epsilon;
+TRUE : home_current_command;
+esac;
+next(home_sharer_list__1) := case
+((home_current_client = 1) & (home_current_command = req_shared) & (home_exclusive_granted = FALSE)) : TRUE;
+TRUE : home_sharer_list__1;
+esac;
+
+---------
+
+MODULE Proc__n_t5__2(cache__2, home_current_client, home_current_command, home_exclusive_granted, home_sharer_list__2)
+ASSIGN
+next(cache__2) := case
+((home_current_client = 2) & (home_current_command = req_shared) & (home_exclusive_granted = FALSE)) : shared;
+TRUE : cache__2;
+esac;
+next(home_current_command) := case
+((home_current_client = 2) & (home_current_command = req_shared) & (home_exclusive_granted = FALSE)) : epsilon;
+TRUE : home_current_command;
+esac;
+next(home_sharer_list__2) := case
+((home_current_client = 2) & (home_current_command = req_shared) & (home_exclusive_granted = FALSE)) : TRUE;
+TRUE : home_sharer_list__2;
+esac;
+
+---------
+
+MODULE Proc__n_t5__3(cache__3, home_current_client, home_current_command, home_exclusive_granted, home_sharer_list__3)
+ASSIGN
+next(cache__3) := case
+((home_current_client = 3) & (home_current_command = req_shared) & (home_exclusive_granted = FALSE)) : shared;
+TRUE : cache__3;
+esac;
+next(home_current_command) := case
+((home_current_client = 3) & (home_current_command = req_shared) & (home_exclusive_granted = FALSE)) : epsilon;
+TRUE : home_current_command;
+esac;
+next(home_sharer_list__3) := case
+((home_current_client = 3) & (home_current_command = req_shared) & (home_exclusive_granted = FALSE)) : TRUE;
+TRUE : home_sharer_list__3;
+esac;
+
+---------
+
+MODULE Proc__n_t6__1(cache__1, home_current_client, home_current_command, home_exclusive_granted, home_sharer_list__1, home_sharer_list__2, home_sharer_list__3)
+ASSIGN
+next(cache__1) := case
+((home_current_client = 1) & (home_current_command = req_exclusive) & (home_exclusive_granted = FALSE) & (home_sharer_list__1 = FALSE) & (home_sharer_list__2 = FALSE) & (home_sharer_list__3 = FALSE)) : exclusive;
+TRUE : cache__1;
+esac;
+next(home_current_command) := case
+((home_current_client = 1) & (home_current_command = req_exclusive) & (home_exclusive_granted = FALSE) & (home_sharer_list__1 = FALSE) & (home_sharer_list__2 = FALSE) & (home_sharer_list__3 = FALSE)) : epsilon;
+TRUE : home_current_command;
+esac;
+next(home_exclusive_granted) := case
+((home_current_client = 1) & (home_current_command = req_exclusive) & (home_exclusive_granted = FALSE) & (home_sharer_list__1 = FALSE) & (home_sharer_list__2 = FALSE) & (home_sharer_list__3 = FALSE)) : TRUE;
+TRUE : home_exclusive_granted;
+esac;
+next(home_sharer_list__1) := case
+((home_current_client = 1) & (home_current_command = req_exclusive) & (home_exclusive_granted = FALSE) & (home_sharer_list__1 = FALSE) & (home_sharer_list__2 = FALSE) & (home_sharer_list__3 = FALSE)) : TRUE;
+TRUE : home_sharer_list__1;
+esac;
+
+---------
+
+MODULE Proc__n_t6__2(cache__2, home_current_client, home_current_command, home_exclusive_granted, home_sharer_list__1, home_sharer_list__2, home_sharer_list__3)
+ASSIGN
+next(cache__2) := case
+((home_current_client = 2) & (home_current_command = req_exclusive) & (home_exclusive_granted = FALSE) & (home_sharer_list__1 = FALSE) & (home_sharer_list__2 = FALSE) & (home_sharer_list__3 = FALSE)) : exclusive;
+TRUE : cache__2;
+esac;
+next(home_current_command) := case
+((home_current_client = 2) & (home_current_command = req_exclusive) & (home_exclusive_granted = FALSE) & (home_sharer_list__1 = FALSE) & (home_sharer_list__2 = FALSE) & (home_sharer_list__3 = FALSE)) : epsilon;
+TRUE : home_current_command;
+esac;
+next(home_exclusive_granted) := case
+((home_current_client = 2) & (home_current_command = req_exclusive) & (home_exclusive_granted = FALSE) & (home_sharer_list__1 = FALSE) & (home_sharer_list__2 = FALSE) & (home_sharer_list__3 = FALSE)) : TRUE;
+TRUE : home_exclusive_granted;
+esac;
+next(home_sharer_list__2) := case
+((home_current_client = 2) & (home_current_command = req_exclusive) & (home_exclusive_granted = FALSE) & (home_sharer_list__1 = FALSE) & (home_sharer_list__2 = FALSE) & (home_sharer_list__3 = FALSE)) : TRUE;
+TRUE : home_sharer_list__2;
+esac;
+
+---------
+
+MODULE Proc__n_t6__3(cache__3, home_current_client, home_current_command, home_exclusive_granted, home_sharer_list__1, home_sharer_list__2, home_sharer_list__3)
+ASSIGN
+next(cache__3) := case
+((home_current_client = 3) & (home_current_command = req_exclusive) & (home_exclusive_granted = FALSE) & (home_sharer_list__1 = FALSE) & (home_sharer_list__2 = FALSE) & (home_sharer_list__3 = FALSE)) : exclusive;
+TRUE : cache__3;
+esac;
+next(home_current_command) := case
+((home_current_client = 3) & (home_current_command = req_exclusive) & (home_exclusive_granted = FALSE) & (home_sharer_list__1 = FALSE) & (home_sharer_list__2 = FALSE) & (home_sharer_list__3 = FALSE)) : epsilon;
+TRUE : home_current_command;
+esac;
+next(home_exclusive_granted) := case
+((home_current_client = 3) & (home_current_command = req_exclusive) & (home_exclusive_granted = FALSE) & (home_sharer_list__1 = FALSE) & (home_sharer_list__2 = FALSE) & (home_sharer_list__3 = FALSE)) : TRUE;
+TRUE : home_exclusive_granted;
+esac;
+next(home_sharer_list__3) := case
+((home_current_client = 3) & (home_current_command = req_exclusive) & (home_exclusive_granted = FALSE) & (home_sharer_list__1 = FALSE) & (home_sharer_list__2 = FALSE) & (home_sharer_list__3 = FALSE)) : TRUE;
+TRUE : home_sharer_list__3;
+esac;

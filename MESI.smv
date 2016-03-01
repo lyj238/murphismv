@@ -1,0 +1,246 @@
+MODULE main
+VAR
+state[1] : {m, e, s, i};
+state[2] : {m, e, s, i};
+state[3] : {m, e, s, i};
+
+--------------------
+
+n_t1__1 : process Proc__n_t1__1(state[1]);
+
+n_t1__2 : process Proc__n_t1__2(state[2]);
+
+n_t1__3 : process Proc__n_t1__3(state[3]);
+
+n_t2__1 : process Proc__n_t2__1(state[1], state[2], state[3]);
+
+n_t2__2 : process Proc__n_t2__2(state[1], state[2], state[3]);
+
+n_t2__3 : process Proc__n_t2__3(state[1], state[2], state[3]);
+
+n_t3__1 : process Proc__n_t3__1(state[1], state[2], state[3]);
+
+n_t3__2 : process Proc__n_t3__2(state[1], state[2], state[3]);
+
+n_t3__3 : process Proc__n_t3__3(state[1], state[2], state[3]);
+
+n_t4__1 : process Proc__n_t4__1(state[1], state[2], state[3]);
+
+n_t4__2 : process Proc__n_t4__2(state[1], state[2], state[3]);
+
+n_t4__3 : process Proc__n_t4__3(state[1], state[2], state[3]);
+
+--------------------
+
+ASSIGN
+init(state[1]) := case
+TRUE : i;
+esac;
+init(state[2]) := case
+TRUE : i;
+esac;
+init(state[3]) := case
+TRUE : i;
+esac;
+
+--------------------
+
+
+
+--------------------
+
+MODULE Proc__n_t1__1(state__1)
+ASSIGN
+next(state__1) := case
+(state__1 = e) : m;
+TRUE : state__1;
+esac;
+
+---------
+
+MODULE Proc__n_t1__2(state__2)
+ASSIGN
+next(state__2) := case
+(state__2 = e) : m;
+TRUE : state__2;
+esac;
+
+---------
+
+MODULE Proc__n_t1__3(state__3)
+ASSIGN
+next(state__3) := case
+(state__3 = e) : m;
+TRUE : state__3;
+esac;
+
+---------
+
+MODULE Proc__n_t2__1(state__1, state__2, state__3)
+ASSIGN
+next(state__1) := case
+(state__1 = i) : s;
+TRUE : state__1;
+esac;
+next(state__2) := case
+((!(state__2 = i)) & (!(state__2 = m)) & (!(state__2 = e)) & (state__1 = i)) : s;
+((state__2 = i) & (!(state__2 = m)) & (!(state__2 = e)) & (state__1 = i)) : i;
+((state__2 = m) & (!(state__2 = e)) & (state__1 = i)) : s;
+((state__2 = e) & (state__1 = i)) : s;
+TRUE : state__2;
+esac;
+next(state__3) := case
+((!(state__3 = i)) & (!(state__3 = m)) & (!(state__3 = e)) & (state__1 = i)) : s;
+((state__3 = i) & (!(state__3 = m)) & (!(state__3 = e)) & (state__1 = i)) : i;
+((state__3 = m) & (!(state__3 = e)) & (state__1 = i)) : s;
+((state__3 = e) & (state__1 = i)) : s;
+TRUE : state__3;
+esac;
+
+---------
+
+MODULE Proc__n_t2__2(state__1, state__2, state__3)
+ASSIGN
+next(state__1) := case
+((!(state__1 = i)) & (!(state__1 = m)) & (!(state__1 = e)) & (state__2 = i)) : s;
+((state__1 = i) & (!(state__1 = m)) & (!(state__1 = e)) & (state__2 = i)) : i;
+((state__1 = m) & (!(state__1 = e)) & (state__2 = i)) : s;
+((state__1 = e) & (state__2 = i)) : s;
+TRUE : state__1;
+esac;
+next(state__2) := case
+(state__2 = i) : s;
+TRUE : state__2;
+esac;
+next(state__3) := case
+((!(state__3 = i)) & (!(state__3 = m)) & (!(state__3 = e)) & (state__2 = i)) : s;
+((state__3 = i) & (!(state__3 = m)) & (!(state__3 = e)) & (state__2 = i)) : i;
+((state__3 = m) & (!(state__3 = e)) & (state__2 = i)) : s;
+((state__3 = e) & (state__2 = i)) : s;
+TRUE : state__3;
+esac;
+
+---------
+
+MODULE Proc__n_t2__3(state__1, state__2, state__3)
+ASSIGN
+next(state__1) := case
+((!(state__1 = i)) & (!(state__1 = m)) & (!(state__1 = e)) & (state__3 = i)) : s;
+((state__1 = i) & (!(state__1 = m)) & (!(state__1 = e)) & (state__3 = i)) : i;
+((state__1 = m) & (!(state__1 = e)) & (state__3 = i)) : s;
+((state__1 = e) & (state__3 = i)) : s;
+TRUE : state__1;
+esac;
+next(state__2) := case
+((!(state__2 = i)) & (!(state__2 = m)) & (!(state__2 = e)) & (state__3 = i)) : s;
+((state__2 = i) & (!(state__2 = m)) & (!(state__2 = e)) & (state__3 = i)) : i;
+((state__2 = m) & (!(state__2 = e)) & (state__3 = i)) : s;
+((state__2 = e) & (state__3 = i)) : s;
+TRUE : state__2;
+esac;
+next(state__3) := case
+(state__3 = i) : s;
+TRUE : state__3;
+esac;
+
+---------
+
+MODULE Proc__n_t3__1(state__1, state__2, state__3)
+ASSIGN
+next(state__1) := case
+(state__1 = s) : e;
+TRUE : state__1;
+esac;
+next(state__2) := case
+(state__1 = s) : i;
+TRUE : state__2;
+esac;
+next(state__3) := case
+(state__1 = s) : i;
+TRUE : state__3;
+esac;
+
+---------
+
+MODULE Proc__n_t3__2(state__1, state__2, state__3)
+ASSIGN
+next(state__1) := case
+(state__2 = s) : i;
+TRUE : state__1;
+esac;
+next(state__2) := case
+(state__2 = s) : e;
+TRUE : state__2;
+esac;
+next(state__3) := case
+(state__2 = s) : i;
+TRUE : state__3;
+esac;
+
+---------
+
+MODULE Proc__n_t3__3(state__1, state__2, state__3)
+ASSIGN
+next(state__1) := case
+(state__3 = s) : i;
+TRUE : state__1;
+esac;
+next(state__2) := case
+(state__3 = s) : i;
+TRUE : state__2;
+esac;
+next(state__3) := case
+(state__3 = s) : e;
+TRUE : state__3;
+esac;
+
+---------
+
+MODULE Proc__n_t4__1(state__1, state__2, state__3)
+ASSIGN
+next(state__1) := case
+(state__1 = i) : e;
+TRUE : state__1;
+esac;
+next(state__2) := case
+(state__1 = i) : i;
+TRUE : state__2;
+esac;
+next(state__3) := case
+(state__1 = i) : i;
+TRUE : state__3;
+esac;
+
+---------
+
+MODULE Proc__n_t4__2(state__1, state__2, state__3)
+ASSIGN
+next(state__1) := case
+(state__2 = i) : i;
+TRUE : state__1;
+esac;
+next(state__2) := case
+(state__2 = i) : e;
+TRUE : state__2;
+esac;
+next(state__3) := case
+(state__2 = i) : i;
+TRUE : state__3;
+esac;
+
+---------
+
+MODULE Proc__n_t4__3(state__1, state__2, state__3)
+ASSIGN
+next(state__1) := case
+(state__3 = i) : i;
+TRUE : state__1;
+esac;
+next(state__2) := case
+(state__3 = i) : i;
+TRUE : state__2;
+esac;
+next(state__3) := case
+(state__3 = i) : e;
+TRUE : state__3;
+esac;
